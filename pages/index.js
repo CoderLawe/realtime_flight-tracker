@@ -51,6 +51,27 @@ export default function Home({ data, openSkyData }) {
     console.log("track", flightTrack);
   }, [selectedFlight]);
 
+  // useEffect(() => {
+  //   const updateFlights = async () => {
+  //     const { latitude, longitude, zoom } = viewport;
+  //     const width = window.innerWidth;
+  //     const height = window.innerHeight;
+  //     const range = 360 / Math.pow(2, zoom);
+  //     const neLat = latitude + (height / 2) * range;
+  //     const neLon = longitude + (width / 2) * range;
+  //     const swLat = latitude - (height / 2) * range;
+  //     const swLon = longitude - (width / 2) * range;
+  //     const url = `https://opensky-network.org/api/states/all?lamin=${swLat}&lomin=${swLon}&lamax=${neLat}&lomax=${neLon}`;
+  //     // make API request with updated coordinates
+  //   };
+
+  //   updateFlights();
+  // }, [viewport]);
+
+  // const handleViewportChange = (viewport) => {
+  //   setViewport(viewport);
+  // };
+
   useEffect(() => {
     const fetchFlights = async () => {
       const { latitude, longitude, width, height } = viewport;
@@ -71,7 +92,7 @@ export default function Home({ data, openSkyData }) {
     };
 
     fetchFlights();
-  }, [viewport]);
+  }, [viewport, selectedFlight]);
 
   useEffect(() => {
     const fetchImage = async () => {

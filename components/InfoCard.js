@@ -21,20 +21,29 @@ function InfoCard() {
   const [searchResult, setSearchResult] = useContext(SearchContext);
   const OPEN_SKY_API_BASE_URL = "https://opensky-network.org/api";
 
-  const currentDateTime = new Date();
-  const startTime = currentDateTime.toISOString().slice(0, -5);
+  const duration = 3600; // in seconds
+
+  // Get the current time in Unix timestamp format
+  const currentTime = Math.floor(Date.now() / 1000);
+
+  // Specify a time range of 24 hours
+  const timeRange = 24 * 60 * 60; // 24 hours in seconds
 
   useEffect(() => {
     const fetchFlightData = async () => {
       const departureResponse = await fetch(
-        `${OPEN_SKY_API_BASE_URL}/flights/aircraft?icao24=${flightData[0]}&begin=1${startTime}`
+        `${OPEN_SKY_API_BASE_URL}/flights/aircraft?icao24=${
+          flightData[0]
+        }&begin=${currentTime - timeRange}&end=${currentTime}`
       );
       const departureData = await departureResponse.json();
       const departure = departureData[0]?.estDepartureAirport || null;
       setDeparture(departure);
 
       const arrivalResponse = await fetch(
-        `${OPEN_SKY_API_BASE_URL}/flights/aircraft?icao24=${flightData[0]}&begin=${startTime}`
+        `${OPEN_SKY_API_BASE_URL}/flights/aircraft?icao24=${
+          flightData[0]
+        }&begin=${currentTime - timeRange}&end=${currentTime}`
       );
       const arrivalData = await arrivalResponse.json();
       const arrival = arrivalData[0]?.estArrivalAirport || null;
@@ -42,8 +51,8 @@ function InfoCard() {
       const estimatedArrival = arrivalData[0]?.lastSeen || null;
 
       setEstimated(estimatedArrival);
-      // console.log("arrival info", arrivalAirport);
-      // console.log("departure info", departure);
+      console.log("arrival info", arrivalData);
+      console.log("departure info", departure);
     };
 
     fetchFlightData();

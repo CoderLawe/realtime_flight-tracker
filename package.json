@@ -14,7 +14,7 @@
     "cheerio": "^1.0.0-rc.12",
     "geolib": "^3.3.3",
     "lodash": "^4.17.21",
-    "mapbox-gl": "^2.13.0",
+    "mapbox-gl": "^2.0.0",
     "next": "latest",
     "pexels": "^1.4.0",
     "react": "18.1.0",

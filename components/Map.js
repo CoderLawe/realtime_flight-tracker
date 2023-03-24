@@ -65,7 +65,7 @@ function Map({ data, setViewport, viewport, flightTrack }) {
     type: "LineString",
     coordinates: flightTrack?.path?.map((point) => [point[2], point[1]]),
   };
-  console.log("track map", lineString);
+  console.log("track map", lineString.coordinates);
   useEffect(() => {
     if (selectedFlight) {
       setArrivalData(selectedFlight[0]);
@@ -111,12 +111,13 @@ function Map({ data, setViewport, viewport, flightTrack }) {
   return (
     <ReactMapGl
       // viewState={viewport}
+      {...viewport}
       className="w-[100%] h-[100%] z-0 absolute "
       ref={(ref) => setMapRef(ref && ref.getMap())}
       initialViewState={viewport}
       onViewportChange={() => handleViewportChange()}
       mapStyle="mapbox://styles/coderlawe/cks0lilc80own17mv51dv90go"
-      mapboxAccessToken={process.env.MAPBOX_TOKEN}
+      mapboxAccessToken="pk.eyJ1IjoiY29kZXJsYXdlIiwiYSI6ImNrcGZvbGE1ajBkd2QydnFvY2tndGs2cjYifQ.hx9O2OuDutDwo1AbZUREqg"
       width="100%"
       height="100%"
       interactiveZoom={true} // Enables zoom with scroll
