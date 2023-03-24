@@ -116,7 +116,7 @@ function Map({ data, setViewport, viewport, flightTrack }) {
       initialViewState={viewport}
       onViewportChange={() => handleViewportChange()}
       mapStyle="mapbox://styles/coderlawe/cks0lilc80own17mv51dv90go"
-      mapboxAccessToken="pk.eyJ1IjoiY29kZXJsYXdlIiwiYSI6ImNrcGZvbGE1ajBkd2QydnFvY2tndGs2cjYifQ.hx9O2OuDutDwo1AbZUREqg"
+      mapboxAccessToken={process.env.MAPBOX_TOKEN}
       width="100%"
       height="100%"
       interactiveZoom={true} // Enables zoom with scroll
