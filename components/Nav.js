@@ -2,20 +2,29 @@ import AirplaneTicketIcon from "@mui/icons-material/AirplaneTicket";
 import SearchIcon from "@mui/icons-material/Search";
 import { useContext, useEffect, useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
-import { FlightsContext } from "./context/FlightContext";
+import {
+  FlightContext,
+  FlightsContext,
+  SearchContext,
+  SelectedContext,
+} from "./context/FlightContext";
 
 const Nav = () => {
   const [flights, setFlights] = useContext(FlightsContext);
   const [searchData, setSearchData] = useState("");
-  const [searchResult, setSearchResult] = useState([]);
+  const [searchResult, setSearchResult] = useContext(SearchContext);
+  const [selectedFlight, setSelectedFlight] = useContext(SelectedContext);
+  const [flightData, setFlightData] = useContext(FlightContext);
 
   const makeSearch = () => {
     const filteredFlights = flights.filter((flight) =>
       flight[1].toLowerCase().includes(searchData.toLowerCase())
     );
     setSearchResult(filteredFlights);
+    setSelectedFlight(searchResult);
+    setFlightData(searchResult);
 
-    console.log("Search was succesful. The results were", searchResult);
+    console.log("Search was succesful. The  FLIGHT results were", flightData);
   };
 
   return (

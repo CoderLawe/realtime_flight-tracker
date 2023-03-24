@@ -1,30 +1,40 @@
 import Image from "next/image";
 import React, { useContext, useEffect, useState } from "react";
-import { FlightContext, ImageContext } from "./context/FlightContext";
+import {
+  FlightContext,
+  ImageContext,
+  SearchContext,
+  SelectedContext,
+} from "./context/FlightContext";
 import { BsAirplaneEngines } from "react-icons/bs";
 import { SlSpeedometer } from "react-icons/sl";
 import { WiBarometer } from "react-icons/wi";
 import { BiStopwatch } from "react-icons/bi";
 function InfoCard() {
   const [flightData, setFlightData] = useContext(FlightContext);
+  const [selectedFlight, setSelectedFlight] = useContext(SelectedContext);
   const [url, setUrl] = useContext(ImageContext);
   const [departure, setDeparture] = useState("");
   const [arrivalAirport, setArrivalAirport] = useState("");
   const [image, setImage] = useState("");
   const [estimated, setEstimated] = useState("");
+  const [searchResult, setSearchResult] = useContext(SearchContext);
   const OPEN_SKY_API_BASE_URL = "https://opensky-network.org/api";
+
+  const currentDateTime = new Date();
+  const startTime = currentDateTime.toISOString().slice(0, -5);
 
   useEffect(() => {
     const fetchFlightData = async () => {
       const departureResponse = await fetch(
-        `${OPEN_SKY_API_BASE_URL}/flights/aircraft?icao24=${flightData[0]}&begin=1631606400&end=1631692800`
+        `${OPEN_SKY_API_BASE_URL}/flights/aircraft?icao24=${flightData[0]}&begin=1${startTime}`
       );
       const departureData = await departureResponse.json();
       const departure = departureData[0]?.estDepartureAirport || null;
       setDeparture(departure);
 
       const arrivalResponse = await fetch(
-        `${OPEN_SKY_API_BASE_URL}/flights/aircraft?icao24=${flightData[0]}&begin=1631606400&end=1631692800`
+        `${OPEN_SKY_API_BASE_URL}/flights/aircraft?icao24=${flightData[0]}&begin=${startTime}`
       );
       const arrivalData = await arrivalResponse.json();
       const arrival = arrivalData[0]?.estArrivalAirport || null;

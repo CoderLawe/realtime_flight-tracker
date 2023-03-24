@@ -9,6 +9,7 @@ export const ArrivalContext = createContext();
 export const DepartureContext = createContext();
 export const SelectedContext = createContext();
 export const FlightsContext = createContext();
+export const SearchContext = createContext();
 export const FlightProvider = ({ children }) => {
   const [flightData, setFlightData] = useState({ flight: 0 });
   const [url, setUrl] = useState();
@@ -18,6 +19,8 @@ export const FlightProvider = ({ children }) => {
   const [arrivalData, setArrivalData] = useState("");
   const [selectedFlight, setSelectedFlight] = useState([]);
   const [flights, setFlights] = useState([]);
+  const [searchResult, setSearchResult] = useState([]);
+
   return (
     <FlightContext.Provider value={[flightData, setFlightData]}>
       <ImageContext.Provider value={[url, setUrl]}>
@@ -29,7 +32,11 @@ export const FlightProvider = ({ children }) => {
                   value={[selectedFlight, setSelectedFlight]}
                 >
                   <FlightsContext.Provider value={[flights, setFlights]}>
-                    {children}
+                    <SearchContext.Provider
+                      value={[searchResult, setSearchResult]}
+                    >
+                      {children}
+                    </SearchContext.Provider>
                   </FlightsContext.Provider>
                 </SelectedContext.Provider>
               </ArrivalContext.Provider>
