@@ -115,7 +115,7 @@ function Map({ data, setViewport, viewport, flightTrack }) {
       className="w-[100%] h-[100%] z-0 absolute "
       ref={(ref) => setMapRef(ref && ref.getMap())}
       initialViewState={viewport}
-      onViewportChange={() => handleViewportChange()}
+      onMove={(evt) => setViewport(evt.viewport)}
       mapStyle="mapbox://styles/coderlawe/cks0lilc80own17mv51dv90go"
       mapboxAccessToken="pk.eyJ1IjoiY29kZXJsYXdlIiwiYSI6ImNrcGZvbGE1ajBkd2QydnFvY2tndGs2cjYifQ.hx9O2OuDutDwo1AbZUREqg"
       width="100%"

@@ -61,7 +61,7 @@ function InfoCard() {
   //   setImage(url);
   // }, [url]);
   return (
-    <div className="hidden lg:flex absolute bg-white top-[96px] left-[29px] z-40 h-[100px] w-[500px] ">
+    <div className="hidden lg:flex absolute bg-white top-[96px] left-[29px] z-40 h-[100px] ">
       <div className="flex-col">
         <div className="flex justify-between bg-[#303030]">
           {/* Left side */}
@@ -81,9 +81,11 @@ function InfoCard() {
             <p className="text-[32px] text-black">{departure && departure}</p>
             <BsAirplaneEngines className="text-yellow-500 text-[32px]" />
 
-            <p className="text-[32px] text-black">
-              {arrivalAirport && arrivalAirport}
-            </p>
+            {arrivalAirport ? (
+              <p className="text-[32px] text-black">{arrivalAirport}</p>
+            ) : (
+              <p className="text-[32px] text-black">Not available</p>
+            )}
           </div>
 
           <div className="flex justify-center space-x-[20px] py-[12px]">
