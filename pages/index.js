@@ -5,14 +5,24 @@ import FlightFeed from "../components/FlightFeed";
 import Map from "../components/Map";
 import InfoCard from "../components/InfoCard";
 import { useContext, useEffect, useState } from "react";
+import ReactMapGl, { Layer, Marker, Popup, Source } from "react-map-gl";
+import { IoMdAirplane } from "react-icons/io";
 import {
   FlightsContext,
   ImageContext,
   SelectedContext,
 } from "../components/context/FlightContext";
-export default function Home({ data, openSkyData }) {
+import { FlyToInterpolator } from "react-map-gl";
+import NewMap from "../components/NewMap";
+import useSWR from "swr";
+// import throttle from "lodash.throttle";
+
+export default function Home({ airportData }) {
   // const [photos, setPhotos] = useState([]);
   const OPEN_SKY_API_BASE_URL = "https://opensky-network.org/api";
+
+  const [selectedFlight, setSelectedFlight] = useContext(SelectedContext);
+  const [flightTrack, setFlightTrack] = useState([]);
 
   const [viewport, setViewport] = useState({
     width: "100vw",
@@ -23,17 +33,50 @@ export default function Home({ data, openSkyData }) {
   });
 
   const [flights, setFlights] = useContext(FlightsContext);
-  const [selectedFlight, setSelectedFlight] = useContext(SelectedContext);
-  const [flightTrack, setFlightTrack] = useState([]);
 
-  const handleViewportChanged = (viewport) => {
-    setBounds(viewport);
-    getFlightData(viewport).then((data) => setFlightData(data));
+  // const { data: flights } = useSWR(
+  //   () => {
+  //     const bbox = mapRef.current?.getMap().getBounds().toArray().toString();
+  //     if (bbox) {
+  //       return [
+  //         `https://opensky-network.org/api/states/all?lamin=${bbox[0]}&lomin=${bbox[1]}&lamax=${bbox[2]}&lomax=${bbox[3]}&time=${startTime}&?`,
+  //         startTime,
+  //       ];
+  //     }
+  //   },
+  //   fetcher,
+  //   {
+  //     refreshInterval: 5000,
+  //   }
+  // );
+
+  // useEffect(() => {
+  //   const getFlights = async () => {
+  //     const bounds = viewport?.getBounds();
+  //     const bbox = bounds.toArray().flat().join(",");
+  //     const url = `https://opensky-network.org/api/states/all?bbox=${bbox}&time=0`;
+  //     const response = await fetch(url);
+  //     const data = await response.json();
+  //     setFlights(data.states);
+  //     console.log("url", flights);
+  //   };
+  //   getFlights();
+  // }, [viewport]);
+
+  const handleFlyTo = (latitude, longitude) => {
+    setViewport({
+      ...viewport,
+      latitude,
+      longitude,
+      zoom: 10,
+      transitionDuration: 1000,
+      transitionInterpolator: new FlyToInterpolator(),
+    });
   };
 
   const [url, setUrl] = useContext(ImageContext);
 
-  const search = "777 300ER";
+  const search = "Cessna 172";
 
   useEffect(() => {
     const fetchFlightTrack = async () => {
@@ -50,6 +93,10 @@ export default function Home({ data, openSkyData }) {
     fetchFlightTrack();
     console.log("track", flightTrack);
   }, [selectedFlight]);
+
+  // useEffect(() => {
+  //   console.log("viewport", viewport);
+  // }, [viewport]);
 
   // useEffect(() => {
   //   const updateFlights = async () => {
@@ -113,7 +160,6 @@ export default function Home({ data, openSkyData }) {
     };
 
     fetchImage();
-    console.log("search", url);
   }, [search, url]);
 
   // let dataType = typeof(data);
@@ -132,12 +178,16 @@ export default function Home({ data, openSkyData }) {
           <Nav />
         </div>
         <section className="h-[100%] w-[100%] absolute -mt-[55px]">
-          <Map
+          {/* <Map
             viewport={viewport}
             setViewport={setViewport}
             data={flights}
             flightTrack={flightTrack}
-          />
+            // airports={airportData}
+            handleFlyTo={handleFlyTo}
+          /> */}
+
+          <NewMap />
 
           <InfoCard />
         </section>

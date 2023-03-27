@@ -43,15 +43,15 @@ function InfoCard() {
       const arrivalResponse = await fetch(
         `${OPEN_SKY_API_BASE_URL}/flights/aircraft?icao24=${
           flightData[0]
-        }&begin=${currentTime - timeRange}&end=${currentTime}`
+        }&begin=${currentTime - timeRange}&end=1679991765`
       );
       const arrivalData = await arrivalResponse.json();
-      const arrival = arrivalData[0]?.estArrivalAirport || null;
+      const arrival = arrivalData[1]?.estArrivalAirport || null;
       setArrivalAirport(arrival);
       const estimatedArrival = arrivalData[0]?.lastSeen || null;
 
       setEstimated(estimatedArrival);
-      console.log("arrival info", arrivalData);
+      console.log("arrival info", arrivalData[1]);
       console.log("departure info", departure);
     };
 
