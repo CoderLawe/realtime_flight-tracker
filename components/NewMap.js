@@ -77,7 +77,11 @@ const NewMap = () => {
       {...viewport}
       className="w-[100%] h-[100%] z-0 absolute "
       initialViewState={viewport}
-      onMove={(evt) => setViewport(evt.viewport)}
+      // onMove={handleMove}
+      onMove={(evt) => {
+        setViewport(evt.viewState);
+        console.log("viewport", evt.viewState);
+      }}
       mapStyle="mapbox://styles/coderlawe/cks0lilc80own17mv51dv90go"
       mapboxAccessToken="pk.eyJ1IjoiY29kZXJsYXdlIiwiYSI6ImNrcGZvbGE1ajBkd2QydnFvY2tndGs2cjYifQ.hx9O2OuDutDwo1AbZUREqg"
       width="100%"
