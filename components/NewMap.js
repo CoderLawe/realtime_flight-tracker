@@ -26,6 +26,26 @@ const NewMap = () => {
   const [flights, setFlights] = useState([]);
   const [flightUrl, setFlightUrl] = useState("");
 
+  const [airports, setAirports] = useState([]);
+
+  // Airport data below
+
+  useEffect(() => {
+    fetch("csvjson.json").then((response) =>
+      response
+        .json()
+        .then((data) => setAirports(data))
+        .catch((err) =>
+          console.log(
+            "Fetching the airports failed with the following error",
+            err
+          )
+        )
+    );
+
+    console.log("airports,", airports);
+  }, []);
+
   // Flight trajectory line start
 
   const lineString = {
