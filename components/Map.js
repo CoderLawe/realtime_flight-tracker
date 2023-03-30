@@ -113,10 +113,10 @@ function Map({ data, airports }) {
 
     fetchFlights();
   }, []);
-  const lineString = {
-    type: "LineString",
-    coordinates: flightTrack?.path?.map((point) => [point[2], point[1]]),
-  };
+  // const lineString = {
+  //   type: "LineString",
+  //   coordinates: flightTrack?.path?.map((point) => [point[2], point[1]]),
+  // };
   console.log("track map", lineString.coordinates);
   useEffect(() => {
     if (selectedFlight) {

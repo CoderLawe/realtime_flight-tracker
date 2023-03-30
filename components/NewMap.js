@@ -1,7 +1,13 @@
-import { useState, useEffect } from "react";
-import ReactMapGL, { FlyToInterpolator, Marker } from "react-map-gl";
+import { useState, useEffect, useContext } from "react";
+import ReactMapGL, {
+  FlyToInterpolator,
+  Marker,
+  Source,
+  Layer,
+} from "react-map-gl";
 import axios from "axios";
 import { IoMdAirplane } from "react-icons/io";
+import { FlightContext, SelectedContext } from "./context/FlightContext";
 
 const NewMap = () => {
   const [viewport, setViewport] = useState({
@@ -11,11 +17,40 @@ const NewMap = () => {
     longitude: -122.4376,
     zoom: 8,
   });
+  const [selectedFlight, setSelectedFlight] = useContext(SelectedContext);
+  const [flightData, setFlightData] = useContext(FlightContext);
+  const [flightTrack, setFlightTrack] = useState(null);
 
   console.log("longitude", { ...viewport });
 
   const [flights, setFlights] = useState([]);
   const [flightUrl, setFlightUrl] = useState("");
+
+  // Flight trajectory line start
+
+  const lineString = {
+    type: "LineString",
+    coordinates: flightTrack?.path?.map((point) => [point[2], point[1]]),
+  };
+  console.log(lineString.coordinates);
+
+  const currentTime = Date.now() / 1000;
+  const stringTime = parseInt(currentTime);
+
+  async function getFlightTrackData(flightId) {
+    const url = `https://opensky-network.org/api/tracks/all?icao24=${flightId}&time=${stringTime}`;
+    const response = await fetch(url);
+    return await response.json();
+  }
+
+  useEffect(() => {
+    if (selectedFlight) {
+      getFlightTrackData(selectedFlight[0]).then((data) =>
+        setFlightTrack(data)
+      );
+      console.log("flightTrack", flightTrack);
+    }
+  }, [selectedFlight]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -94,12 +129,44 @@ const NewMap = () => {
         <div key={`flight-no${flight[0]}`} className="relative">
           <Marker longitude={flight[5]} latitude={flight[6]}>
             <IoMdAirplane
+              onClick={() => {
+                setFlightData(flight);
+                setSelectedFlight(flight);
+                console.log("flight data", flight[1]);
+              }}
               style={{ rotate: `${flight[10]}deg` }}
-              className="text-yellow-400 text-[32px] cursor-pointer"
+              className={
+                selectedFlight[0] === flight[0]
+                  ? "text-blue-400 text-[32px] cursor-pointer"
+                  : "text-yellow-400 text-[32px] cursor-pointer"
+              }
             />
           </Marker>
 
           {/* New marker start */}
+
+          {selectedFlight && (
+            <Source
+              type="geojson"
+              data={{
+                type: "Feature",
+                geometry: {
+                  type: "LineString",
+                  coordinates: lineString.coordinates,
+                },
+              }}
+            >
+              <Layer
+                className="z-40"
+                id="flightTrack"
+                type="line"
+                paint={{
+                  "line-color": "#FFFF00",
+                  "line-width": 2,
+                }}
+              />
+            </Source>
+          )}
         </div>
       ))}
     </ReactMapGL>
