@@ -15,6 +15,7 @@ import {
 import { FlyToInterpolator } from "react-map-gl";
 import NewMap from "../components/NewMap";
 import useSWR from "swr";
+import Preloader from "../components/Preloader";
 // import throttle from "lodash.throttle";
 
 export default function Home({ airportData }) {
@@ -171,6 +172,9 @@ export default function Home({ airportData }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
+      <div>
+        <Preloader />
+      </div>
       <body className="h-full">
         {/* HEader */}
         <div className="">
@@ -188,7 +192,7 @@ export default function Home({ airportData }) {
 
           <NewMap />
 
-          <InfoCard />
+          {/* <InfoCard /> */}
         </section>
         {/* <FlightFeed data={openSkyData} /> */}
       </body>
