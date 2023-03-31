@@ -192,7 +192,7 @@ export default function Home({ airportData }) {
 
           <NewMap />
 
-          {/* <InfoCard /> */}
+          <InfoCard />
         </section>
         {/* <FlightFeed data={openSkyData} /> */}
       </body>

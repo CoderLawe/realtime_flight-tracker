@@ -55,9 +55,16 @@ function Preloader() {
         </div>
 
         <div className="mt-10">
-          <p className="text-gray-100 font-serif text-[16px] text-center animate-pulse">
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{
+              delay: 1.5,
+            }}
+            className="text-gray-100 font-serif text-[16px] text-center animate-pulse"
+          >
             Educational Flight tracker
-          </p>
+          </motion.p>
         </div>
       </div>
     </div>

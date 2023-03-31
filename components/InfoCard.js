@@ -28,7 +28,7 @@ function InfoCard() {
 
   // Specify a time range of 24 hours
   const timeRange = 24 * 60 * 60; // 24 hours in seconds
-
+  console.log("flightData", flightData);
   useEffect(() => {
     const fetchFlightData = async () => {
       const departureResponse = await fetch(

@@ -157,8 +157,8 @@ const NewMap = () => {
 
         // console.log("viewport", evt.viewState);
       }}
-      mapStyle="mapbox://styles/coderlawe/cks0lilc80own17mv51dv90go"
-      mapboxAccessToken="pk.eyJ1IjoiY29kZXJsYXdlIiwiYSI6ImNrcGZvbGE1ajBkd2QydnFvY2tndGs2cjYifQ.hx9O2OuDutDwo1AbZUREqg"
+      mapStyle="mapbox://styles/coderlawe/clfwfy5mo001j01ogk2i5q5if"
+      mapboxAccessToken={process.env.MAPBOX_TOKEN}
       width="100%"
       height="100%"
       interactiveZoom={true} // Enables zoom with scroll
@@ -176,8 +176,8 @@ const NewMap = () => {
               style={{ rotate: `${flight[10]}deg` }}
               className={
                 selectedFlight[0] === flight[0]
-                  ? "text-blue-400 text-[32px] cursor-pointer"
-                  : "text-yellow-400 text-[32px] cursor-pointer"
+                  ? "text-blue-500 text-[32px] cursor-pointer"
+                  : "text-yellow-500 text-[32px] cursor-pointer"
               }
             />
           </Marker>
