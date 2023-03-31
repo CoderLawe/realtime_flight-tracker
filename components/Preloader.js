@@ -8,10 +8,10 @@ function Preloader() {
     setLoaded(true);
   };
 
-  //   useEffect(() => {
-  //     const timer = setTimeout(() => resetLoading(), 6000);
-  //     return () => clearTimeout(timer);
-  //   }, []);
+    useEffect(() => {
+      const timer = setTimeout(() => resetLoading(), 6000);
+      return () => clearTimeout(timer);
+    }, []);
   return (
     <div
       className={
