@@ -119,27 +119,27 @@ export default function Home({ airportData }) {
   //   setViewport(viewport);
   // };
 
-  useEffect(() => {
-    const fetchFlights = async () => {
-      const { latitude, longitude, width, height } = viewport;
+  // useEffect(() => {
+  //   const fetchFlights = async () => {
+  //     const { latitude, longitude, width, height } = viewport;
 
-      const numericWidth = parseInt(width);
-      const numericHeight = parseInt(height);
+  //     const numericWidth = parseInt(width);
+  //     const numericHeight = parseInt(height);
 
-      const lamax = latitude + numericHeight / 2;
-      const lomin = longitude - numericWidth / 2;
-      const lomax = longitude + numericWidth / 2;
-      const lamin = latitude - numericHeight / 2;
-      const url = `https://opensky-network.org/api/states/all?lamin=${lamin}&lomin=${lomin}&lamax=${lamax}&lomax=${lomax}&max=2`;
+  //     const lamax = latitude + numericHeight / 2;
+  //     const lomin = longitude - numericWidth / 2;
+  //     const lomax = longitude + numericWidth / 2;
+  //     const lamin = latitude - numericHeight / 2;
+  //     const url = `https://opensky-network.org/api/states/all?lamin=${lamin}&lomin=${lomin}&lamax=${lamax}&lomax=${lomax}&max=2`;
 
-      // console.log(longitude);
-      const response = await fetch(url);
-      const data = await response.json();
-      setFlights(data.states);
-    };
+  //     // console.log(longitude);
+  //     const response = await fetch(url);
+  //     const data = await response.json();
+  //     setFlights(data.states);
+  //   };
 
-    fetchFlights();
-  }, [viewport, selectedFlight]);
+  //   fetchFlights();
+  // }, [viewport, selectedFlight]);
 
   useEffect(() => {
     const fetchImage = async () => {
@@ -147,8 +147,7 @@ export default function Home({ airportData }) {
         `https://api.pexels.com/v1/search?query=${search}&per_page=1`,
         {
           headers: {
-            Authorization:
-              "uhGeXWCiM8eb8t427VbLOomzfey1UeN6aGrm1FnNymsqQ8qeGiAFHcJe",
+            Authorization: process.env.PEXELS_KEY,
           },
         }
       );

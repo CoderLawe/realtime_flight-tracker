@@ -21,12 +21,11 @@ const NewMap = () => {
   const [flightData, setFlightData] = useContext(FlightContext);
   const [flightTrack, setFlightTrack] = useState(null);
 
-  console.log("longitude", { ...viewport });
-
   const [flights, setFlights] = useState([]);
   const [flightUrl, setFlightUrl] = useState("");
 
   const [airports, setAirports] = useState([]);
+  const [mapMoving, setMapMoving] = useState(false);
 
   // Airport data below
 
@@ -52,7 +51,6 @@ const NewMap = () => {
     type: "LineString",
     coordinates: flightTrack?.path?.map((point) => [point[2], point[1]]),
   };
-  console.log(lineString.coordinates);
 
   const currentTime = Date.now() / 1000;
   const stringTime = parseInt(currentTime);
@@ -68,40 +66,61 @@ const NewMap = () => {
       getFlightTrackData(selectedFlight[0]).then((data) =>
         setFlightTrack(data)
       );
-      console.log("flightTrack", flightTrack);
     }
   }, [selectedFlight]);
 
+  // Getting flight data array
+
+  const fetchData = async () => {
+    const longitude = viewport?.longitude;
+    console.log("longitude", longitude);
+    const latitude = viewport?.latitude;
+    const radius = 500; // radius in nautical miles
+    const url = `https://opensky-network.org/api/states/all?lamin=${
+      latitude - radius / 60
+    }&lomin=${longitude - radius / 60}&lamax=${latitude + radius / 60}&lomax=${
+      longitude + radius / 60
+    }&time=0`;
+
+    setFlightUrl(url);
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+
+      setFlights(data.states);
+      console.log(
+        "Fetch function ran succesfully for coords",
+        longitude,
+        latitude,
+        "and fetch url",
+        url
+      );
+    } catch (error) {
+      console.error("error", error.message);
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      const longitude = viewport?.longitude;
-      console.log("longitude", longitude);
-      const latitude = viewport?.latitude;
-      const radius = 500; // radius in nautical miles
-      const url = `https://opensky-network.org/api/states/all?lamin=${
-        latitude - radius / 60
-      }&lomin=${longitude - radius / 60}&lamax=${
-        latitude + radius / 60
-      }&lomax=${longitude + radius / 60}&time=0`;
-
-      setFlightUrl(url);
-      try {
-        const response = await fetch(url);
-        const data = await response.json();
-
-        setFlights(data.states);
-        console.log("the flights", flights);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchData();
-  }, [viewport]);
+    if (!mapMoving) {
+      const delayDebounceFn = setTimeout(() => {
+        fetchData();
+      }, 5000);
+      return () => clearTimeout(delayDebounceFn);
+    }
+  }, [mapMoving]);
 
   useEffect(() => {
-    console.log("Flight URL", flightUrl);
-  }, [flightUrl]);
+    console.log("map is moving", mapMoving);
+  }, [mapMoving]);
+
+  // const handleViewportChange = (evt) => {
+  //   setViewport(evt.viewState);
+  //   setMapMoving(true);
+  // };
+
+  // useEffect(() => {
+  //   console.log("Flight URL", flightUrl);
+  // }, [flightUrl]);
   const handleFlyTo = ({ longitude, latitude }) => {
     setViewport({
       ...viewport,
@@ -122,10 +141,6 @@ const NewMap = () => {
     console.log("New viewport");
   };
 
-  useEffect(() => {
-    console.log("viewport", viewport);
-  }, [viewport]);
-
   return (
     <ReactMapGL
       // viewState={viewport}
@@ -135,7 +150,12 @@ const NewMap = () => {
       // onMove={handleMove}
       onMove={(evt) => {
         setViewport(evt.viewState);
-        console.log("viewport", evt.viewState);
+        setMapMoving(true);
+        setTimeout(() => {
+          setMapMoving(false);
+        }, 5000);
+
+        // console.log("viewport", evt.viewState);
       }}
       mapStyle="mapbox://styles/coderlawe/cks0lilc80own17mv51dv90go"
       mapboxAccessToken="pk.eyJ1IjoiY29kZXJsYXdlIiwiYSI6ImNrcGZvbGE1ajBkd2QydnFvY2tndGs2cjYifQ.hx9O2OuDutDwo1AbZUREqg"
@@ -145,14 +165,13 @@ const NewMap = () => {
       dragPan={true} // Enables panning
       // The spread operator gets everything to that point
     >
-      {flights.map((flight) => (
+      {flights?.map((flight) => (
         <div key={`flight-no${flight[0]}`} className="relative">
           <Marker longitude={flight[5]} latitude={flight[6]}>
             <IoMdAirplane
               onClick={() => {
                 setFlightData(flight);
                 setSelectedFlight(flight);
-                console.log("flight data", flight[1]);
               }}
               style={{ rotate: `${flight[10]}deg` }}
               className={

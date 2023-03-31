@@ -10,6 +10,10 @@ export const DepartureContext = createContext();
 export const SelectedContext = createContext();
 export const FlightsContext = createContext();
 export const SearchContext = createContext();
+export const FetchContext = createContext();
+export const FlightUrlContext = createContext();
+export const ViewportContext = createContext();
+
 export const FlightProvider = ({ children }) => {
   const [flightData, setFlightData] = useState({ flight: 0 });
   const [url, setUrl] = useState();
@@ -20,6 +24,38 @@ export const FlightProvider = ({ children }) => {
   const [selectedFlight, setSelectedFlight] = useState([]);
   const [flights, setFlights] = useState([]);
   const [searchResult, setSearchResult] = useState([]);
+  const [flightUrl, setFlightUrl] = useState("");
+
+  const [viewport, setViewport] = useState({
+    width: "100vw",
+    height: "100vh",
+    latitude: 37.7577,
+    longitude: -122.4376,
+    zoom: 8,
+  });
+
+  // const fetchData = async () => {
+  //   const longitude = viewport?.longitude;
+  //   console.log("longitude", longitude);
+  //   const latitude = viewport?.latitude;
+  //   const radius = 500; // radius in nautical miles
+  //   const url = `https://opensky-network.org/api/states/all?lamin=${
+  //     latitude - radius / 60
+  //   }&lomin=${longitude - radius / 60}&lamax=${latitude + radius / 60}&lomax=${
+  //     longitude + radius / 60
+  //   }&time=0`;
+
+  //   setFlightUrl(url);
+  //   try {
+  //     const response = await fetch(url);
+  //     const data = await response.json();
+
+  //     setFlights(data.states);
+  //     console.log("the flights", flights);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   return (
     <FlightContext.Provider value={[flightData, setFlightData]}>
@@ -35,7 +71,15 @@ export const FlightProvider = ({ children }) => {
                     <SearchContext.Provider
                       value={[searchResult, setSearchResult]}
                     >
-                      {children}
+                      <FlightUrlContext.Provider
+                        value={[flightUrl, setFlightUrl]}
+                      >
+                        <ViewportContext.Provider
+                          value={[viewport, setViewport]}
+                        >
+                          {children}
+                        </ViewportContext.Provider>
+                      </FlightUrlContext.Provider>
                     </SearchContext.Provider>
                   </FlightsContext.Provider>
                 </SelectedContext.Provider>
