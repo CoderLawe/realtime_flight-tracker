@@ -8,10 +8,10 @@ function Preloader() {
     setLoaded(true);
   };
 
-  useEffect(() => {
-    const timer = setTimeout(() => resetLoading(), 6000);
-    return () => clearTimeout(timer);
-  }, []);
+  //   useEffect(() => {
+  //     const timer = setTimeout(() => resetLoading(), 6000);
+  //     return () => clearTimeout(timer);
+  //   }, []);
   return (
     <div
       className={
@@ -35,7 +35,7 @@ function Preloader() {
               duration: 1.5,
             }}
           >
-            <BiRadar className="text-gray-100 text-[80px]" />
+            <BiRadar className="text-gray-100 text-[50px] lg:text-[80px]" />
           </motion.div>
           <motion.p
             initial={{
@@ -46,9 +46,9 @@ function Preloader() {
             }}
             transition={{
               duration: 2,
-              delay: 0.3,
+              delay: 1,
             }}
-            className="text-yellow-500 font-serif text-[50px] ml-[5px]"
+            className="text-yellow-500 font-serif text-[35px] ml-[5px]"
           >
             November<span className="text-white"> Romeo</span>
           </motion.p>

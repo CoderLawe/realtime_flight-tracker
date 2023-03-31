@@ -20,11 +20,12 @@ export const FlightProvider = ({ children }) => {
   const [viewPortUpper, setViewPortUpper] = useState();
   const [viewPortLower, setViewPortLower] = useState();
   const [airframe, setAirframe] = useState("");
-  const [arrivalData, setArrivalData] = useState("");
+  const [arrivalAirport, setArrivalAirport] = useState("");
   const [selectedFlight, setSelectedFlight] = useState([]);
   const [flights, setFlights] = useState([]);
   const [searchResult, setSearchResult] = useState([]);
   const [flightUrl, setFlightUrl] = useState("");
+  const [departure, setDeparture] = useState("");
 
   const [viewport, setViewport] = useState({
     width: "100vw",
@@ -63,7 +64,9 @@ export const FlightProvider = ({ children }) => {
         <UpperContext.Provider value={[viewPortUpper, setViewPortUpper]}>
           <LowerContext.Provider value={[viewPortLower, setViewPortLower]}>
             <AirFrameContext.Provider value={[airframe, setAirframe]}>
-              <ArrivalContext.Provider value={[arrivalData, setArrivalData]}>
+              <ArrivalContext.Provider
+                value={[arrivalAirport, setArrivalAirport]}
+              >
                 <SelectedContext.Provider
                   value={[selectedFlight, setSelectedFlight]}
                 >
@@ -77,7 +80,11 @@ export const FlightProvider = ({ children }) => {
                         <ViewportContext.Provider
                           value={[viewport, setViewport]}
                         >
-                          {children}
+                          <DepartureContext.Provider
+                            value={[departure, setDeparture]}
+                          >
+                            {children}
+                          </DepartureContext.Provider>
                         </ViewportContext.Provider>
                       </FlightUrlContext.Provider>
                     </SearchContext.Provider>

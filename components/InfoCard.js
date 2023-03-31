@@ -1,6 +1,8 @@
 import Image from "next/image";
 import React, { useContext, useEffect, useState } from "react";
 import {
+  ArrivalContext,
+  DepartureContext,
   FlightContext,
   ImageContext,
   SearchContext,
@@ -14,8 +16,8 @@ function InfoCard() {
   const [flightData, setFlightData] = useContext(FlightContext);
   const [selectedFlight, setSelectedFlight] = useContext(SelectedContext);
   const [url, setUrl] = useContext(ImageContext);
-  const [departure, setDeparture] = useState("");
-  const [arrivalAirport, setArrivalAirport] = useState("");
+  const [departure, setDeparture] = useContext(DepartureContext);
+  const [arrivalAirport, setArrivalAirport] = useContext(ArrivalContext);
   const [image, setImage] = useState("");
   const [estimated, setEstimated] = useState("");
   const [searchResult, setSearchResult] = useContext(SearchContext);

@@ -13,8 +13,8 @@ const NewMap = () => {
   const [viewport, setViewport] = useState({
     width: "100vw",
     height: "100vh",
-    latitude: 37.7577,
-    longitude: -122.4376,
+    latitude: -34.3239,
+    longitude: 137.7587,
     zoom: 8,
   });
   const [selectedFlight, setSelectedFlight] = useContext(SelectedContext);
@@ -158,7 +158,7 @@ const NewMap = () => {
         // console.log("viewport", evt.viewState);
       }}
       mapStyle="mapbox://styles/coderlawe/clfwfy5mo001j01ogk2i5q5if"
-      mapboxAccessToken={process.env.MAPBOX_TOKEN}
+      mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
       width="100%"
       height="100%"
       interactiveZoom={true} // Enables zoom with scroll
@@ -176,8 +176,8 @@ const NewMap = () => {
               style={{ rotate: `${flight[10]}deg` }}
               className={
                 selectedFlight[0] === flight[0]
-                  ? "text-blue-500 text-[32px] cursor-pointer"
-                  : "text-yellow-500 text-[32px] cursor-pointer"
+                  ? "text-red-600 text-[32px] cursor-pointer"
+                  : "text-yellow-600 text-[32px] cursor-pointer"
               }
             />
           </Marker>
