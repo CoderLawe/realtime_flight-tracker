@@ -33,6 +33,8 @@ const Nav = ({ search }) => {
     console.log("Search was succesful. The  FLIGHT results were", flightData);
   };
 
+  console.log("flightData", flightData);
+
   return (
     <div>
       {/* Large screen navbar */}
@@ -68,18 +70,21 @@ const Nav = ({ search }) => {
       </div>
 
       {/* Small screen navbar */}
-      <div className="flex justify-center w-[100vw] absolute top-0 z-[30] bg-black/40">
+
+      {/* Top navbar */}
+      <div className="flex justify-center w-[100vw] absolute top-0 z-[30] bg-black/40 overflow-hidden">
         <p className="text-[40px] text-center text-yellow-500 font-serif]">
           November<span className="text-white"> Romeo</span>
         </p>
       </div>
+
+      {/* Bottom Navbar and Info card */}
       <div className="block absolute bottom-0 z-[30]">
-        <div className="flex justify-between items-center w-screen lg:hidden bg-gray-900/60 h-[50px] pl-5 py-7  ">
+        <div className="flex justify-between items-center w-screen lg:hidden bg-gray-900/60 h-[50px]  ">
           {/* Left side */}
-          <div>
-            <p className="text-[40px] text-yellow-500">
-              N<span className="text-gray-100">R</span>
-            </p>
+          <div className="flex-col  align-middle">
+            <p className="text-yellow-400 text-[24px]">{flightData[1]}</p>
+            <p className="text-gray-100 text-[16px] -mt-2">{flightData[2]}</p>
           </div>
 
           {/* Right side */}
@@ -87,7 +92,7 @@ const Nav = ({ search }) => {
           <div className="relative">
             {/* <AiOutlineMenu className="text-gray-100 text-[40px]" /> */}
             <img
-              className="z-40 h-[100px] w-[150px] "
+              className="z-40 h-[100px] w-[150px] -mt-[50px] "
               src={search}
               height={200}
               width={250}
@@ -98,15 +103,35 @@ const Nav = ({ search }) => {
           className={
             selectedFlight === []
               ? "hidden"
-              : "h-[100px] bg-gray-300 w-full flex lg:hidden  justify-between p-[10px]"
+              : "h-[100px] bg-gray-300  flex lg:hidden  justify-between p-[10px]"
           }
         >
-          {selectedFlight && (
-            <p className="text-gray-900 text-[24px]">{departure}</p>
-          )}
+          <div className="w-[70%] flex space-x-[20px]">
+            {selectedFlight && (
+              <p className="text-gray-900 text-[24px]">{departure}</p>
+            )}
 
-          <IoMdAirplane className="text-yellow-500 rotate-[90deg] text-[40px] bg-white rounded-full " />
-          <p className="text-gray-900 text-[24px]">Arrival</p>
+            <IoMdAirplane className="text-yellow-500 rotate-[90deg] text-[40px] bg-white rounded-full " />
+            <p className="text-gray-900 text-[24px]">Arrival</p>
+          </div>
+
+          {/* Right side containing numbers*/}
+
+          <div className="block border-l border-white pl-[2px]">
+            <div className="flex-col">
+              <p className="capitalize text-gray-700 text-[14px] whitespace-nowrap">
+                CALIBRATED ALT.
+              </p>
+              <p className="">{flightData[7]} m</p>
+            </div>
+
+            <div className="flex-col">
+              <p className="capitalize text-gray-700 text-[14px] whitespace-nowrap">
+                GROUND SPEED.
+              </p>
+              <p className="">{flightData[9]} km/h</p>
+            </div>
+          </div>
         </div>
       </div>
       {/* Bottom half */}
