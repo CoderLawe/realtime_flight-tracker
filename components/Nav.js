@@ -68,8 +68,13 @@ const Nav = ({ search }) => {
       </div>
 
       {/* Small screen navbar */}
+      <div className="flex justify-center w-[100vw] absolute top-0 z-[30] bg-black/40">
+        <p className="text-[40px] text-center text-yellow-500 font-serif]">
+          November<span className="text-white"> Romeo</span>
+        </p>
+      </div>
       <div className="block absolute bottom-0 z-[30]">
-        <div className="flex justify-between items-center w-screen lg:hidden bg-gray-900/60 h-[50px] px-5 py-7  ">
+        <div className="flex justify-between items-center w-screen lg:hidden bg-gray-900/60 h-[50px] pl-5 py-7  ">
           {/* Left side */}
           <div>
             <p className="text-[40px] text-yellow-500">
@@ -79,9 +84,14 @@ const Nav = ({ search }) => {
 
           {/* Right side */}
 
-          <div>
+          <div className="relative">
             {/* <AiOutlineMenu className="text-gray-100 text-[40px]" /> */}
-            <Image src={search} height={250} width={300} />
+            <img
+              className="z-40 h-[100px] w-[150px] "
+              src={search}
+              height={200}
+              width={250}
+            />
           </div>
         </div>
         <div
