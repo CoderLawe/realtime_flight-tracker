@@ -72,7 +72,7 @@ const Nav = ({ search }) => {
       {/* Small screen navbar */}
 
       {/* Top navbar */}
-      <div className="flex justify-center w-[100vw] absolute top-0 z-[30] bg-black/40 overflow-hidden">
+      <div className="flex lg:hidden justify-center w-[100vw] absolute top-0 z-[30] bg-black/40 overflow-hidden">
         <p className="text-[40px] text-center text-yellow-500 font-serif]">
           November<span className="text-white"> Romeo</span>
         </p>
