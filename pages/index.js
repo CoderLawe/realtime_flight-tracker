@@ -17,6 +17,8 @@ import NewMap from "../components/NewMap";
 import useSWR from "swr";
 import Preloader from "../components/Preloader";
 // import throttle from "lodash.throttle";
+import cors from "cors";
+import { createClient } from "pexels";
 
 export default function Home({ airportData }) {
   // const [photos, setPhotos] = useState([]);
@@ -77,7 +79,7 @@ export default function Home({ airportData }) {
 
   const [url, setUrl] = useContext(ImageContext);
 
-  const search = "Cessna 172";
+  const search = "Qantas Boeing 777";
 
   useEffect(() => {
     const fetchFlightTrack = async () => {
@@ -148,14 +150,15 @@ export default function Home({ airportData }) {
         `https://api.pexels.com/v1/search?query=${search}&per_page=1`,
         {
           headers: {
-            Authorization: process.env.PEXELS_KEY,
+            Authorization: process.env.NEXT_PUBLIC_PEXELS_KEY,
           },
         }
       );
 
       const { photos } = await response.json();
+      // setUrl(photos[0]);
       const { src } = photos[0];
-
+      console.log("src pexels", src.original);
       setUrl(src.original);
     };
 
@@ -178,7 +181,7 @@ export default function Home({ airportData }) {
       <body className="h-full">
         {/* HEader */}
         <div className="">
-          <Nav />
+          <Nav search={url} />
         </div>
         <section className="h-[100%] w-[100%] absolute -mt-[55px]">
           {/* <Map

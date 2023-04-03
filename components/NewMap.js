@@ -201,7 +201,7 @@ const NewMap = () => {
                 type="line"
                 paint={{
                   "line-color": "#FFFF00",
-                  "line-width": 2,
+                  "line-width": 3,
                 }}
               />
             </Source>

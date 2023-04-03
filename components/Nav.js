@@ -1,5 +1,6 @@
 import AirplaneTicketIcon from "@mui/icons-material/AirplaneTicket";
 import SearchIcon from "@mui/icons-material/Search";
+import Image from "next/image";
 import { useContext, useEffect, useState } from "react";
 import { AiOutlineMenu, AiOutlineSearch } from "react-icons/ai";
 import { IoMdAirplane } from "react-icons/io";
@@ -12,7 +13,7 @@ import {
   SelectedContext,
 } from "./context/FlightContext";
 
-const Nav = () => {
+const Nav = ({ search }) => {
   const [flights, setFlights] = useContext(FlightsContext);
   const [searchData, setSearchData] = useState("");
   const [searchResult, setSearchResult] = useContext(SearchContext);
@@ -68,7 +69,7 @@ const Nav = () => {
 
       {/* Small screen navbar */}
       <div className="block absolute bottom-0 z-[30]">
-        <div className="flex justify-between items-center w-screen lg:hidden bg-gray-900 h-[50px] px-5 py-7  ">
+        <div className="flex justify-between items-center w-screen lg:hidden bg-gray-900/60 h-[50px] px-5 py-7  ">
           {/* Left side */}
           <div>
             <p className="text-[40px] text-yellow-500">
@@ -80,13 +81,14 @@ const Nav = () => {
 
           <div>
             {/* <AiOutlineMenu className="text-gray-100 text-[40px]" /> */}
+            <Image src={search} height={250} width={300} />
           </div>
         </div>
         <div
           className={
-            selectedFlight
-              ? "h-[100px] bg-gray-300 w-full flex justify-between p-[10px]"
-              : "hidden"
+            selectedFlight === []
+              ? "hidden"
+              : "h-[100px] bg-gray-300 w-full flex lg:hidden  justify-between p-[10px]"
           }
         >
           {selectedFlight && (
