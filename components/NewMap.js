@@ -8,6 +8,7 @@ import ReactMapGL, {
 import axios from "axios";
 import { IoMdAirplane } from "react-icons/io";
 import { FlightContext, SelectedContext } from "./context/FlightContext";
+import { BsPinFill } from "react-icons/bs";
 
 const NewMap = () => {
   const [viewport, setViewport] = useState({
@@ -33,7 +34,10 @@ const NewMap = () => {
     fetch("csvjson.json").then((response) =>
       response
         .json()
-        .then((data) => setAirports(data))
+        .then((data) => {
+          setAirports(data);
+          console.log("the airports,", airports);
+        })
         .catch((err) =>
           console.log(
             "Fetching the airports failed with the following error",
@@ -41,9 +45,7 @@ const NewMap = () => {
           )
         )
     );
-
-    console.log("airports,", airports);
-  }, []);
+  }, [selectedFlight]);
 
   // Flight trajectory line start
 
@@ -208,6 +210,16 @@ const NewMap = () => {
           )}
         </div>
       ))}
+
+      {/* {airports.map((airport) => (
+        <Marker
+          key={airport.long}
+          longitude={airport?.long}
+          latitude={airport?.lat}
+        >
+          <BsPinFill className="text-red-400 text-[32px]" />
+        </Marker>
+      ))} */}
     </ReactMapGL>
   );
 };
