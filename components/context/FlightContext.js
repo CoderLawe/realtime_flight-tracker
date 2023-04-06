@@ -13,9 +13,11 @@ export const SearchContext = createContext();
 export const FetchContext = createContext();
 export const FlightUrlContext = createContext();
 export const ViewportContext = createContext();
+export const ClickedContext = createContext();
 
 export const FlightProvider = ({ children }) => {
-  const [flightData, setFlightData] = useState({ flight: 0 });
+  const [flightData, setFlightData] = useState({});
+  const [clicked, setClicked] = useState(false);
   const [url, setUrl] = useState();
   const [viewPortUpper, setViewPortUpper] = useState();
   const [viewPortLower, setViewPortLower] = useState();
@@ -74,19 +76,17 @@ export const FlightProvider = ({ children }) => {
                     <SearchContext.Provider
                       value={[searchResult, setSearchResult]}
                     >
-                      <FlightUrlContext.Provider
-                        value={[flightUrl, setFlightUrl]}
-                      >
-                        <ViewportContext.Provider
-                          value={[viewport, setViewport]}
+                      <ViewportContext.Provider value={[viewport, setViewport]}>
+                        <DepartureContext.Provider
+                          value={[departure, setDeparture]}
                         >
-                          <DepartureContext.Provider
-                            value={[departure, setDeparture]}
+                          <ClickedContext.Provider
+                            value={[clicked, setClicked]}
                           >
                             {children}
-                          </DepartureContext.Provider>
-                        </ViewportContext.Provider>
-                      </FlightUrlContext.Provider>
+                          </ClickedContext.Provider>
+                        </DepartureContext.Provider>
+                      </ViewportContext.Provider>
                     </SearchContext.Provider>
                   </FlightsContext.Provider>
                 </SelectedContext.Provider>

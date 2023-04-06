@@ -7,7 +7,11 @@ import ReactMapGL, {
 } from "react-map-gl";
 import axios from "axios";
 import { IoMdAirplane } from "react-icons/io";
-import { FlightContext, SelectedContext } from "./context/FlightContext";
+import {
+  ClickedContext,
+  FlightContext,
+  SelectedContext,
+} from "./context/FlightContext";
 import { BsPinFill } from "react-icons/bs";
 
 const NewMap = () => {
@@ -27,11 +31,11 @@ const NewMap = () => {
 
   const [airports, setAirports] = useState([]);
   const [mapMoving, setMapMoving] = useState(false);
-
+  const [clicked, setClicked] = useContext(ClickedContext);
   // Airport data below
 
   useEffect(() => {
-    fetch("csvjson.json").then((response) =>
+    fetch("world_airports.json").then((response) =>
       response
         .json()
         .then((data) => {
@@ -174,6 +178,7 @@ const NewMap = () => {
               onClick={() => {
                 setFlightData(flight);
                 setSelectedFlight(flight);
+                setClicked(true);
               }}
               style={{ rotate: `${flight[10]}deg` }}
               className={
@@ -213,9 +218,9 @@ const NewMap = () => {
 
       {/* {airports.map((airport) => (
         <Marker
-          key={airport.long}
-          longitude={airport?.long}
-          latitude={airport?.lat}
+          key={airport.uid}
+          longitude={airport?.longitude}
+          latitude={airport?.latitude}
         >
           <BsPinFill className="text-red-400 text-[32px]" />
         </Marker>

@@ -9,14 +9,13 @@ import {
   DepartureContext,
   FlightContext,
   FlightsContext,
-  SearchContext,
   SelectedContext,
 } from "./context/FlightContext";
 
 const Nav = ({ search }) => {
   const [flights, setFlights] = useContext(FlightsContext);
   const [searchData, setSearchData] = useState("");
-  const [searchResult, setSearchResult] = useContext(SearchContext);
+  const [searchResult, setSearchResult] = useState([]);
   const [selectedFlight, setSelectedFlight] = useContext(SelectedContext);
   const [flightData, setFlightData] = useContext(FlightContext);
 

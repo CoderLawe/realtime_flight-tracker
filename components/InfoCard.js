@@ -2,6 +2,7 @@ import Image from "next/image";
 import React, { useContext, useEffect, useState } from "react";
 import {
   ArrivalContext,
+  ClickedContext,
   DepartureContext,
   FlightContext,
   ImageContext,
@@ -21,6 +22,7 @@ function InfoCard() {
   const [image, setImage] = useState("");
   const [estimated, setEstimated] = useState("");
   const [searchResult, setSearchResult] = useContext(SearchContext);
+  const [clicked, setClicked] = useContext(ClickedContext);
   const OPEN_SKY_API_BASE_URL = "https://opensky-network.org/api";
 
   const duration = 3600; // in seconds
@@ -63,7 +65,12 @@ function InfoCard() {
   //   setImage(url);
   // }, [url]);
   return (
-    <div className="hidden lg:flex absolute bg-white top-[96px] left-[29px] z-40 h-[100px] ">
+    <div
+      className={
+        clicked &&
+        "hidden lg:flex absolute bg-white top-[96px] left-[29px] z-40 h-[100px] "
+      }
+    >
       <div className="flex-col">
         <div className="flex justify-between bg-[#303030]">
           {/* Left side */}
