@@ -8,6 +8,7 @@ import ReactMapGL, {
 import axios from "axios";
 import { IoMdAirplane } from "react-icons/io";
 import {
+  AirportsContext,
   ClickedContext,
   FlightContext,
   SelectedContext,
@@ -29,28 +30,48 @@ const NewMap = () => {
   const [flights, setFlights] = useState([]);
   const [flightUrl, setFlightUrl] = useState("");
 
-  const [airports, setAirports] = useState([]);
+  const [airports, setAirports] = useContext(AirportsContext);
   const [mapMoving, setMapMoving] = useState(false);
   const [clicked, setClicked] = useContext(ClickedContext);
   // Airport data below
 
-  useEffect(() => {
-    fetch("world_airports.json").then((response) =>
-      response
-        .json()
-        .then((data) => {
-          setAirports(data);
-          console.log("the airports,", airports);
-        })
-        .catch((err) =>
-          console.log(
-            "Fetching the airports failed with the following error",
-            err
-          )
-        )
-    );
-  }, [selectedFlight]);
+  function distanceBetween(lat1, lon1, lat2, lon2) {
+    const R = 6371; // Radius of the earth in km
+    const dLat = ((lat2 - lat1) * Math.PI) / 180; // deg2rad below
+    const dLon = ((lon2 - lon1) * Math.PI) / 180;
+    const a =
+      0.5 -
+      Math.cos(dLat) / 2 +
+      (Math.cos((lat1 * Math.PI) / 180) *
+        Math.cos((lat2 * Math.PI) / 180) *
+        (1 - Math.cos(dLon))) /
+        2;
 
+    return R * 2 * Math.asin(Math.sqrt(a));
+  }
+  const fetchAirports = async () => {
+    const response = await fetch("world_airports.json");
+    const airports = await response.json();
+
+    const filteredAirports = airports.filter(
+      (airport) =>
+        distanceBetween(
+          airport.latitude,
+          airport.longitude,
+          viewport.latitude,
+          viewport.longitude
+        ) <= 500
+    );
+
+    setAirports(filteredAirports);
+    console.log("The airports", airports);
+  };
+
+  // Fetch on initial load
+
+  useEffect(() => {
+    fetchAirports();
+  }, []);
   // Flight trajectory line start
 
   const lineString = {
@@ -110,6 +131,7 @@ const NewMap = () => {
     if (!mapMoving) {
       const delayDebounceFn = setTimeout(() => {
         fetchData();
+        fetchAirports();
       }, 5000);
       return () => clearTimeout(delayDebounceFn);
     }
@@ -216,15 +238,20 @@ const NewMap = () => {
         </div>
       ))}
 
-      {/* {airports.map((airport) => (
+      {airports.map((airport) => (
         <Marker
           key={airport.uid}
           longitude={airport?.longitude}
           latitude={airport?.latitude}
         >
-          <BsPinFill className="text-red-400 text-[32px]" />
+          <div className="block group space-y-4 cursor-pointer">
+            <p className="text-white bg-black/50 font-serif text-[12px] opacity-0 group-hover:opacity-100 px-2">
+              {airport.name}
+            </p>
+            <BsPinFill className="text-red-400 text-[32px]" />
+          </div>
         </Marker>
-      ))} */}
+      ))}
     </ReactMapGL>
   );
 };

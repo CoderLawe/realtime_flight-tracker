@@ -21,7 +21,7 @@ function InfoCard() {
   const [arrivalAirport, setArrivalAirport] = useContext(ArrivalContext);
   const [image, setImage] = useState("");
   const [estimated, setEstimated] = useState("");
-  const [searchResult, setSearchResult] = useContext(SearchContext);
+  // const [searchResult, setSearchResult] = useContext(SearchContext);
   const [clicked, setClicked] = useContext(ClickedContext);
   const OPEN_SKY_API_BASE_URL = "https://opensky-network.org/api";
 

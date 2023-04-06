@@ -5,6 +5,7 @@ import { useContext, useEffect, useState } from "react";
 import { AiOutlineMenu, AiOutlineSearch } from "react-icons/ai";
 import { IoMdAirplane } from "react-icons/io";
 import {
+  AirportsContext,
   ArrivalContext,
   DepartureContext,
   FlightContext,
@@ -15,21 +16,30 @@ import {
 const Nav = ({ search }) => {
   const [flights, setFlights] = useContext(FlightsContext);
   const [searchData, setSearchData] = useState("");
-  const [searchResult, setSearchResult] = useState([]);
+  const [searchResult, setSearchResult] = useState({});
   const [selectedFlight, setSelectedFlight] = useContext(SelectedContext);
   const [flightData, setFlightData] = useContext(FlightContext);
+  const [airports, setAirports] = useContext(AirportsContext);
 
   const [arrivalData, setArrivalData] = useContext(ArrivalContext);
   const [departure, setDeparture] = useContext(DepartureContext);
-  const makeSearch = () => {
-    const filteredFlights = flights.filter((flight) =>
-      flight[1].toLowerCase().includes(searchData.toLowerCase())
-    );
-    setSearchResult(filteredFlights);
-    setSelectedFlight(searchResult);
-    setFlightData(searchResult);
+  // const makeSearch = () => {
+  //   const filteredFlights = flights.filter((flight) =>
+  //     flight[1].toLowerCase().includes(searchData.toLowerCase())
+  //   );
+  //   setSearchResult(filteredFlights);
+  //   setSelectedFlight(searchResult);
+  //   setFlightData(searchResult);
 
-    console.log("Search was succesful. The  FLIGHT results were", flightData);
+  //   console.log("Search was succesful. The  FLIGHT results were", flightData);
+  // };
+
+  const makeSearch = () => {
+    const filteredAirports = airports.filter((airport) =>
+      airport.name.toLowerCase().includes(searchData.toLowerCase())
+    );
+    setSearchResult(filteredAirports);
+    console.log("Filtered airports", filteredAirports);
   };
 
   console.log("flightData", flightData);

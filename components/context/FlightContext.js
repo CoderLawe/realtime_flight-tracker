@@ -14,7 +14,7 @@ export const FetchContext = createContext();
 export const FlightUrlContext = createContext();
 export const ViewportContext = createContext();
 export const ClickedContext = createContext();
-
+export const AirportsContext = createContext();
 export const FlightProvider = ({ children }) => {
   const [flightData, setFlightData] = useState({});
   const [clicked, setClicked] = useState(false);
@@ -25,9 +25,9 @@ export const FlightProvider = ({ children }) => {
   const [arrivalAirport, setArrivalAirport] = useState("");
   const [selectedFlight, setSelectedFlight] = useState([]);
   const [flights, setFlights] = useState([]);
-  const [searchResult, setSearchResult] = useState([]);
   const [flightUrl, setFlightUrl] = useState("");
   const [departure, setDeparture] = useState("");
+  const [airports, setAirports] = useState([]);
 
   const [viewport, setViewport] = useState({
     width: "100vw",
@@ -73,21 +73,19 @@ export const FlightProvider = ({ children }) => {
                   value={[selectedFlight, setSelectedFlight]}
                 >
                   <FlightsContext.Provider value={[flights, setFlights]}>
-                    <SearchContext.Provider
-                      value={[searchResult, setSearchResult]}
-                    >
-                      <ViewportContext.Provider value={[viewport, setViewport]}>
-                        <DepartureContext.Provider
-                          value={[departure, setDeparture]}
-                        >
-                          <ClickedContext.Provider
-                            value={[clicked, setClicked]}
+                    <ViewportContext.Provider value={[viewport, setViewport]}>
+                      <DepartureContext.Provider
+                        value={[departure, setDeparture]}
+                      >
+                        <ClickedContext.Provider value={[clicked, setClicked]}>
+                          <AirportsContext.Provider
+                            value={[airports, setAirports]}
                           >
                             {children}
-                          </ClickedContext.Provider>
-                        </DepartureContext.Provider>
-                      </ViewportContext.Provider>
-                    </SearchContext.Provider>
+                          </AirportsContext.Provider>
+                        </ClickedContext.Provider>
+                      </DepartureContext.Provider>
+                    </ViewportContext.Provider>
                   </FlightsContext.Provider>
                 </SelectedContext.Provider>
               </ArrivalContext.Provider>

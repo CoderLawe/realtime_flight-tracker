@@ -79,7 +79,7 @@ export default function Home({ airportData }) {
 
   const [url, setUrl] = useContext(ImageContext);
 
-  const search = "Qantas Boeing 777";
+  const search = "Bujumbura International Airport";
 
   useEffect(() => {
     const fetchFlightTrack = async () => {
